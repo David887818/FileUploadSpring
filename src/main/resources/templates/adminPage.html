@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <title>Admin</title>
+</head>
+<style>
+    body {
+        background-image: url("/books_texture3013.jpg");
+    }
+
+    #toggle,#togg {
+        display: none;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $("#button").click(function () {
+            $("#toggle").toggle();
+            $("#togg").css("display","none")
+
+        });
+        $("#butt").click(function () {
+            $("#togg").toggle();
+            $("#toggle").css("display","none")
+        });
+    });
+</script>
+<body>
+<div class="d-flex w-50 m-2 ">
+    <a href="/logout"> <input type="submit" class=" m-2  btn btn-warning" name="submit" value="Logout"></a>
+    <input type="submit" id="button" class="m-2   btn btn-warning" name="submit" value="Add Advertisment">
+    <input type="submit" id="butt" class="m-2   btn btn-warning" name="submit" value="Add Category">
+
+</div>
+
+<div class="d-flex">
+<div class="d-flex w-25 m-5 ">
+    <div id="toggle" class=" m-5 ">
+        <h3 class="text-warning">Add Advertisment</h3>
+        <form action="/addAds" method="post" enctype="multipart/form-data">
+            <input type="text" class=" w-100 mt-2 btn btn-warning" name="name" placeholder="name">
+            <input type="text" class=" w-100 mt-2 btn btn-warning" name="description" placeholder="description">
+            <input type="number" class=" w-100 mt-2 btn btn-warning" name="price" placeholder="price">
+            <input type="date" class=" w-100 mt-2 btn btn-warning" name="date" placeholder="date">
+            <select name="category_id" class="mt-2  w-50 btn btn-warning form-control">
+                <option  th:each="categoryes : ${category}" th:text="${categoryes.name}" th:value="${categoryes.id}">
+                </option>
+            </select>
+            <input type="file" class=" w-100 mt-5 btn btn-warning" name="image">
+            <input type="submit" class=" w-100 mt-5 btn btn-warning" name="submit" value="Add">
+        </form>
+
+    </div>
+    <div id="togg" class=" m-5 ">
+        <h3 class="text-warning">Add Category</h3>
+        <form action="/addCategory" method="post">
+            <input type="text" class=" w-100 mt-2 btn btn-warning" name="name" placeholder="name">
+            <input type="submit" class=" w-100 mt-2 btn btn-warning" name="submit" value="Add">
+        </form>
+
+    </div>
+</div>
+<div class="w-75 m-5  ">
+    <div class="">
+        <form class="d-flex m-3" action="/search" method="post">
+            <select name="category_id" class="  w-50 btn btn-warning form-control">
+                <option th:each="categoryes : ${category}" th:text="${categoryes.name}" th:value="${categoryes.id}">
+                </option>
+            </select>
+            <input type="submit" class=" w-25 ml-3 btn btn-warning" name="submit" value="Search">
+        </form>
+    </div>
+    <table class="table table-warning table-hover">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Image</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ad:${ads}">
+            <td th:text="${ad.id}"></td>
+            <td th:text="${ad.name}"></td>
+            <td th:text="${ad.description}"></td>
+            <td th:text="${ad.date}"></td>
+            <td th:text="${ad.price}"></td>
+            <td th:text="${ad.category.name}"></td>
+            <td><img width="100" th:src="@{'/adImage?'(picUrl=${ad.picUrl})}"></td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+</body>
+</html>

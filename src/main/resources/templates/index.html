@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <title>Login</title>
+</head>
+<style>
+    body {
+        background-image: url("/books_texture3013.jpg");
+    }
+
+    #toggle {
+        display: none;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $("#button").click(function () {
+            $("#toggle").toggle();
+        });
+    });
+</script>
+<body>
+<div class=" w-100 d-flex ">
+
+    <div class="w-75 m-3 ">
+    <div class="">
+        <form class="d-flex m-3" action="/search" method="post">
+            <select name="category_id" class="  w-50 btn btn-warning form-control">
+                <option th:each="categoryes : ${category}" th:text="${categoryes.name}" th:value="${categoryes.id}">
+                </option>
+            </select>
+            <input type="submit" class=" w-25 ml-3 btn btn-warning" name="submit" value="Search">
+        </form>
+    </div>
+    <table class="table table-warning table-hover">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Image</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ad:${ads}">
+            <td th:text="${ad.id}"></td>
+            <td th:text="${ad.name}"></td>
+            <td th:text="${ad.description}"></td>
+            <td th:text="${ad.date}"></td>
+            <td th:text="${ad.price}"></td>
+            <td th:text="${ad.category.name}"></td>
+            <td><img width="100" th:src="@{'adImage?'(picUrl=${ad.getPicUrl()})}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+    <div class="w-25 m-3 ">
+        <input type="submit" id="button" class=" w-100  btn btn-warning" name="submit" value="Sign Up">
+        <div id="toggle" class="m-3 border border-warning rounded">
+            <div class="m-3">
+
+                <h3 th:text="${error}" class="text-danger"></h3>
+                <form action="/login" method="post">
+                    <input type="email" class=" w-100 mt-2 btn btn-warning" name="email" placeholder="Email">
+                    <input type="password" class=" w-100 mt-2 btn btn-warning" name="password"
+                           placeholder="password">
+                    <input type="submit" class=" w-100 mt-5 btn btn-warning" name="submit" value="Login">
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+</body>
+</html>
